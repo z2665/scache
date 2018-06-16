@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include<iostream>
 namespace Scache{
 
 
@@ -20,6 +21,9 @@ class item
         std::string Value(){
             return _value;
         }
+        void SetValue(std::string value){
+            _value = std::move(value);
+        }
     private:
     std::string _key;
     std::string _value;
@@ -34,15 +38,14 @@ private:
     //hash数组总容量
   int cap;
   int depth;
-  bool ishasing;
-  item** hashmap;
+  item** _hashmap;
   
 public:
-    cache(int size=200,int dep=6):cap(size),depth(dep),ishasing(false){
-        hashmap = new item*[size];
+    cache(int size=200,int dep=6):cap(size),depth(dep){
+        _hashmap = new item*[size];
     };
     ~cache(){
-        
+       
     };
     //hash函数，后续更换为实现更优秀版本
     int hash(std::string& key){
@@ -53,23 +56,28 @@ public:
         return tmp%cap;
     }
     //放大hashmap大小并重新hash
-    void rehash(){
+    item** rehash(){
+        std::cout << "rehashing" <<std::endl;
         int oldcap = cap;
         cap *= 2;
+        std::cout << "new cap is " <<cap<< std::endl;
         item** newmap = new item *[cap];
         for (int i = 0; i != oldcap;++i){
-            item *oldone = hashmap[i];
+            item *oldone = _hashmap[i];
             //如果当前位置不为空，则遍历链表并重新hash所有的项
             while(oldone!=nullptr){
-                set(oldone->Key(), oldone->Value());
+                _set(newmap,oldone->Key(), oldone->Value(),true);
                 oldone = oldone->Next();
             }
         }
-        ishasing = false;
-        delete[] hashmap;
-        hashmap = newmap;
+        delete[] _hashmap;
+        _hashmap = newmap;
+        return _hashmap;
     }
     void set(std::string key, std::string value){
+        _set(_hashmap, std::move(key), std::move(value),false);
+    }
+    void _set(item** hashmap,std::string key, std::string value,bool ishasing){
         int p=hash(key);
         item * tmp=new item(key,value);
         //如果这个位置没有被占用，则直接插入
@@ -82,6 +90,11 @@ public:
         item* next=hashmap[p];
         int len = 0;
         while (true){
+            //比较key是否一致,如果一致则修改value
+            if(next->Key()==key){
+                next->SetValue(value);
+                return;
+            }
             //如果链尾不为空，则插入
             if (next->Next()==nullptr ){
                 next->SetNext(tmp);
@@ -91,8 +104,7 @@ public:
             len++;
             if (len>=depth && !ishasing){
                 //如果链表深度大于限制
-                ishasing = true;
-                rehash();
+                hashmap= rehash();
                 len = 0;
                 goto rehashpoint;
             }
