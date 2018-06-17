@@ -36,7 +36,7 @@ class cache
 {
 private:
     //hash数组总容量
-  int cap;
+  long long cap;
   int depth;
   item** _hashmap;
   
@@ -48,10 +48,13 @@ public:
        
     };
     //hash函数，后续更换为实现更优秀版本
-    int hash(std::string& key){
-        int tmp=0;
+    long long hash(std::string& key){
+        long long  tmp=0;
+        int count = 0;
         for (auto& ch : key){
-            tmp += ch&0xf00000;
+          if(count%2==0){
+              tmp += (tmp << 5) + ch;
+          }
         }
         return tmp%cap;
     }
