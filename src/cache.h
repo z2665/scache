@@ -61,7 +61,7 @@ public:
     //放大hashmap大小并重新hash
     item** rehash(){
         std::cout << "rehashing" <<std::endl;
-        int oldcap = cap;
+        long long oldcap = cap;
         cap *= 2;
         std::cout << "new cap is " <<cap<< std::endl;
         item** newmap = new item *[cap];
