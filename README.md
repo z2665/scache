@@ -22,3 +22,5 @@ A simple cache for study
      perf record ./a.out
      perf report
 ```
+## 开发建议
+* 建议使用clang-format来格式化代码
