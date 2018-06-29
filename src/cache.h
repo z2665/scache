@@ -50,8 +50,22 @@ class cache
     {
         _hashmap = new item *[size];
     };
-    ~cache(){
-
+    ~cache()
+    {
+        //销毁存储的数据
+        for (long long i = 0; i != cap; ++i)
+        {
+            item *oldone = _hashmap[i];
+            item *deone = nullptr;
+            //如果当前位置不为空，则遍历链表并删除
+            while (oldone != nullptr)
+            {
+                deone = oldone;
+                oldone = oldone->Next();
+                delete deone;
+            }
+        }
+        delete[] _hashmap;
     };
     //hash函数，后续更换为实现更优秀版本
     long long hash(std::string &key)
@@ -75,7 +89,7 @@ class cache
         cap *= 2;
         std::cout << "new cap is " << cap << std::endl;
         item **newmap = new item *[cap];
-        for (int i = 0; i != oldcap; ++i)
+        for (long long i = 0; i != oldcap; ++i)
         {
             item *oldone = _hashmap[i];
             //如果当前位置不为空，则遍历链表并重新hash所有的项
