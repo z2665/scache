@@ -69,7 +69,7 @@ class cache
         delete[] _hashmap;
     };
     //hash函数，后续更换为实现更优秀版本
-    long long hash(std::string &key)
+    long long hash(const std::string &key)
     {
         long long tmp = 0;
         int count = 0;
@@ -93,11 +93,14 @@ class cache
         for (long long i = 0; i != oldcap; ++i)
         {
             item *oldone = _hashmap[i];
+            item *oldkeep = nullptr;
             //如果当前位置不为空，则遍历链表并重新hash所有的项
             while (oldone != nullptr)
             {
-                _set(newmap, oldone->Key(), oldone->Value(), true);
-                oldone = oldone->Next();
+                //由于set中会清除后续链接，所以链接应该提前保存出来
+                oldkeep = oldone->Next();
+                _set(newmap, oldone);
+                oldone = oldkeep;
             }
         }
         delete[] _hashmap;
@@ -106,13 +109,15 @@ class cache
     }
     void set(std::string key, std::string value)
     {
-        _set(_hashmap, std::move(key), std::move(value), false);
+        _set(_hashmap, std::move(key), std::move(value));
     }
-    void _set(item **hashmap, std::string key, std::string value, bool ishasing)
+    //用于set插入数据
+    void _set(item **hashmap, std::string key, std::string value)
     {
         int p = hash(key);
+        //断开next链接的链表，因为已经重建规则
         item *tmp = new item(key, value);
-        std::cout << tmp->Key() << "   v:" << tmp->Value() << std::endl;
+        // std::cout << tmp->Key() << "   v:" << tmp->Value() << std::endl;
     //如果这个位置没有被占用，则直接插入
     rehashpoint:
         if (hashmap[p] == nullptr)
@@ -140,7 +145,7 @@ class cache
             }
             next = next->Next();
             len++;
-            if (len >= depth && !ishasing)
+            if (len >= depth)
             {
                 //如果链表深度大于限制
                 hashmap = rehash();
@@ -149,13 +154,44 @@ class cache
             }
         }
     }
+    //用于迁移老的item到新数组
+    void _set(item **hashmap, item *oldone)
+    {
+        int p = hash(oldone->Key());
+        oldone->SetNext(nullptr);
+        //如果这个位置没有被占用，则直接插入
+        if (hashmap[p] == nullptr)
+        {
+            hashmap[p] = oldone;
+            return;
+        }
+        //否则进入冲突处理逻辑
+        item *next = hashmap[p];
+        while (true)
+        {
+            //在重建的时候不会出现key一致的情况
+            // if (next->Key() == key)
+            // {
+            //     next->SetValue(value);
+            //     delete tmp;
+            //     return;
+            // }
+            //如果链尾不为空，则插入
+            if (next->Next() == nullptr)
+            {
+                next->SetNext(oldone);
+                return;
+            }
+            next = next->Next();
+        }
+    }
     void debugShow()
     {
         for (long long i = 0; i != cap; ++i)
         {
             if (_hashmap[i] != nullptr)
             {
-                std::cout << "show key:" << _hashmap[i]->Key() << _hashmap[i]->Value() << std::endl;
+                std::cout << "show key is :" << _hashmap[i]->Key() << " value is :"<<_hashmap[i]->Value() << std::endl;
             }
         }
     }

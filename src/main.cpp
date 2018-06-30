@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
             c.set(hellostring, worldstring);
         }
         finish = clock();
-        cout << "\n简单的重复插入运行时间为" << (double)(finish - start) / CLOCKS_PER_SEC << endl;
+        cout << "\nsimple insert use time :" << (double)(finish - start) / CLOCKS_PER_SEC << endl;
     }
     else if (a == 1)
     {
@@ -39,9 +39,8 @@ int main(int argc, char const *argv[])
             c.set(to_string(rd()), worldstring);
         }
         finish = clock();
-        cout << "\n随机插入运行时间为" << (double)(finish - start) / CLOCKS_PER_SEC << endl;
+        cout << "\nrandom insert use time:" << (double)(finish - start) / CLOCKS_PER_SEC << endl;
     }
     // c.debugShow();
-    // c.~cache();
     return 0;
 }
