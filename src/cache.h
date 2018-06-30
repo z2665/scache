@@ -60,6 +60,7 @@ class cache
             //如果当前位置不为空，则遍历链表并删除
             while (oldone != nullptr)
             {
+                std::cout << "delete" << oldone->Key() << "  ve:" << oldone->Value() << std::endl;
                 deone = oldone;
                 oldone = oldone->Next();
                 delete deone;
@@ -111,6 +112,7 @@ class cache
     {
         int p = hash(key);
         item *tmp = new item(key, value);
+        std::cout << tmp->Key() << "   v:" << tmp->Value() << std::endl;
     //如果这个位置没有被占用，则直接插入
     rehashpoint:
         if (hashmap[p] == nullptr)
@@ -127,6 +129,7 @@ class cache
             if (next->Key() == key)
             {
                 next->SetValue(value);
+                delete tmp;
                 return;
             }
             //如果链尾不为空，则插入
@@ -143,6 +146,16 @@ class cache
                 hashmap = rehash();
                 len = 0;
                 goto rehashpoint;
+            }
+        }
+    }
+    void debugShow()
+    {
+        for (long long i = 0; i != cap; ++i)
+        {
+            if (_hashmap[i] != nullptr)
+            {
+                std::cout << "show key:" << _hashmap[i]->Key() << _hashmap[i]->Value() << std::endl;
             }
         }
     }

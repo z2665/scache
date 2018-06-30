@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
     cin >> a;
     clock_t start, finish;
     random_device rd;
-    cout << "hello" << endl;
+    cout << "hello123" << endl;
     cout << "world" << endl;
     Scache::cache c(2000);
     string hellostring = string("hello");
@@ -36,11 +36,12 @@ int main(int argc, char const *argv[])
         for (int i = 0; i != 100000; ++i)
         {
 
-            c.set(move(to_string(rd())), worldstring);
+            c.set(to_string(rd()), worldstring);
         }
         finish = clock();
         cout << "\n随机插入运行时间为" << (double)(finish - start) / CLOCKS_PER_SEC << endl;
     }
-
+    // c.debugShow();
+    // c.~cache();
     return 0;
 }
