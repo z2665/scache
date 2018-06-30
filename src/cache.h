@@ -60,7 +60,6 @@ class cache
             //如果当前位置不为空，则遍历链表并删除
             while (oldone != nullptr)
             {
-                std::cout << "delete" << oldone->Key() << "  ve:" << oldone->Value() << std::endl;
                 deone = oldone;
                 oldone = oldone->Next();
                 delete deone;
@@ -191,7 +190,7 @@ class cache
         {
             if (_hashmap[i] != nullptr)
             {
-                std::cout << "show key is :" << _hashmap[i]->Key() << " value is :"<<_hashmap[i]->Value() << std::endl;
+                std::cout << "show key is :" << _hashmap[i]->Key() << " value is :" << _hashmap[i]->Value() << std::endl;
             }
         }
     }
