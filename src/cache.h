@@ -48,7 +48,7 @@ class cache
   public:
     cache(int size = 200, int dep = 6) : cap(size), depth(dep)
     {
-        _hashmap = new item *[size];
+        _hashmap = new item *[size]();
     };
     ~cache()
     {
@@ -88,7 +88,7 @@ class cache
         long long oldcap = cap;
         cap *= 2;
         std::cout << "new cap is " << cap << std::endl;
-        item **newmap = new item *[cap];
+        item **newmap = new item *[cap]();
         for (long long i = 0; i != oldcap; ++i)
         {
             item *oldone = _hashmap[i];
