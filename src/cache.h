@@ -68,7 +68,7 @@ class cache
         delete[] _hashmap;
     };
     //hash函数，后续更换为实现更优秀版本
-    long long hash(const std::string &key)
+    long long hash(const std::string &key) const
     {
         long long tmp = 0;
         int count = 0;
@@ -184,7 +184,7 @@ class cache
             next = next->Next();
         }
     }
-    void debugShow()
+    void debugShow() const
     {
         for (long long i = 0; i != cap; ++i)
         {
