@@ -1,5 +1,6 @@
 # scache
-[![Build Status](https://travis-ci.org/z2665/scache.svg?branch=master)](https://travis-ci.org/z2665/scache)
+[![Build Status](https://travis-ci.org/z2665/scache.svg?branch=master)](https://travis-ci.org/z2665/scache)  
+
 A simple cache for study
 
 
