@@ -2,7 +2,6 @@ language: cpp
 branches:
   only:
   - master
-  - coverity_scan
 matrix:
   include:
    - os: linux
@@ -17,31 +16,10 @@ matrix:
             - cmake
      env:
         - MATRIX_EVAL="eCC=gcc-7 && CXX=g++-7"
-   - os: linux
-     addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - george-edison55-precise-backports
-          packages:
-            - g++-7
-            - cmake-data
-            - cmake
-     env:
-      global:
-        - secure: "c0xZmoRB3c5TacBY/34NkEebwQJ/3tfJ2EDooBwsphodVsFy0YLGBVFCa/Sssq6o7wUeQUYnKQx+iekD3Xb66NUdLXzuhW0G/FXM+Hq0f3hUK1KSMIoTrfF4Yq/XbNd09JuC57ytQxVTEecxZ4hk0PGvaqiXiz0VQTszjr2JCRWuTFxy2vpuuQtM6B4c2EVpYW0FTLAES6lbbOf+ATorpgmjzQjEkFIF14c4PO4DbeTbX1ZI9rodckUIu96u/GX4UiRhLF5hiWD4VctvosUb4O3sJn+ey6+ZRBFNqHbEoVkj+aaTydc9RgumBecUhW+UM4XDjtpXQFqeJJWKxRkZeptFDk7VTJpCiq6nmomG7S21URO6tpnMbM24mSjurs6aamyLstOUHozh0B9CdAdfbpx4N25ixlTJO9BBRgFikwL+mu+jcKUyOjclqOYzNiuYNnacUZq6H+qUnpwCEg+Ww/tNEZQbDgnGDhgYe5Zi3/nqj38sLHapBsGtoeNdk+9msk0s1mPafy4V9ZEXbXSYlpvsigD/ZGoHe8GJgd8vqWB/uYjafzZ9B6LluUueQpSBNwIqGy/3qdi7/5MwA4pnyDotHcyW6LO1V1EnZZlYh8+wjO4H5NXgMkUMraSYKEQFPZHwRDsi4p/0Jx9CU+pe2czgiuscr2j7q98LOeBlSck="
-     coverity_scan:
-      project:
-        name: "z2665/scache"
-        description: "A simple cache for study"
-      notification_email: z26650@hotmail.com
-      build_command_prepend: "cmake ./"
-      build_command: "make"
-      branch_pattern: coverity_scan
-
 before_install:
     - eval "${MATRIX_EVAL}"
-    - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then cmake ./;make ; fi
+script:
+  - cmake ./
+  - make
 
  
