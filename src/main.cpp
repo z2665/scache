@@ -35,7 +35,6 @@ int main(int argc, char const *argv[])
         start = clock();
         for (int i = 0; i != 100000; ++i)
         {
-
             c.set(to_string(rd()), worldstring);
         }
         finish = clock();
