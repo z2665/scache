@@ -3,6 +3,10 @@ set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_BUILD_TYPE "Debug") 
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
-## load in pkg-config support
+
+FIND_PACKAGE( Boost 1.67 COMPONENTS program_options REQUIRED )
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+
 include_directories(src)
 add_executable(a.out src/main.cpp)
+TARGET_LINK_LIBRARIES(a.out LINK_PUBLIC ${Boost_LIBRARIES} )

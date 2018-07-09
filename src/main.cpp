@@ -1,5 +1,6 @@
 
 #include "cache.h"
+#include "netserver.h"
 #include <ctime>
 #include <iostream>
 #include <random>
@@ -41,5 +42,6 @@ int main(int argc, char const *argv[])
         cout << "\nrandom insert use time:" << (double)(finish - start) / CLOCKS_PER_SEC << endl;
     }
     // c.debugShow();
+    NetServer sv(12450);
     return 0;
 }
