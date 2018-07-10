@@ -6,7 +6,8 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -pthread")
 
 FIND_PACKAGE( Boost 1.67 COMPONENTS program_options REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-
+message(STATUS,"Boost_INCLUDE_DIR = ",${Boost_INCLUDE_DIR})
+message(STATUS,"Boost_LIBRARIES = ",${Boost_LIBRARIES})
 include_directories(src)
 add_executable(a.out src/main.cpp)
 TARGET_LINK_LIBRARIES(a.out LINK_PUBLIC ${Boost_LIBRARIES} )
