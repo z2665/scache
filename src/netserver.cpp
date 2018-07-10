@@ -7,7 +7,9 @@ using std::endl;
 NetServer::NetServer(int port, int maxcon) : mio(1), _port(port), _maxcon(maxcon), _nowcon(0), acp(mio, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), _port))
 {
 }
-
+NetServer::~NetServer()
+{
+}
 void NetServer::Start()
 {
     mio.run();
