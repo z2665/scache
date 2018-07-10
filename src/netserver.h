@@ -31,9 +31,8 @@ public:
 
 private:
   boost::asio::io_context mio;
-  boost::asio::ip::tcp::acceptor acp;
-
   int _port;
   int _maxcon;
   int _nowcon;
+  boost::asio::ip::tcp::acceptor acp;
 };
