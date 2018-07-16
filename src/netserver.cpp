@@ -42,13 +42,14 @@ void NetServer::HandleAccept()
 //用于处理读取事件
 void RWHandle::HandleRead()
 {
-    asio::async_read_until(sock, asio::buffer(m_buff), "\%\%\%", [this](const boost::system::error_code &ec) {
+    asio::async_read_until(sock, asio::buffer(m_buff), "\%\%\%", [this](const boost::system::error_code &ec, std::size_t bytes_transferred) {
         if (ec)
         {
             cout << ec.value() << " msg:" << ec.message() << endl;
             //TODO 异常处理
             return;
         }
+        cout << "trans :" << bytes_transferred << endl;
         cout << m_buff.data() << endl;
         HandleRead();
     });
