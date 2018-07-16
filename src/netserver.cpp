@@ -49,8 +49,9 @@ void RWHandle::HandleRead()
             //TODO 异常处理
             return;
         }
+        std::string data(buffers_begin(_buffer.data()), buffers_begin(_buffer.data()) + _buffer.size());
         cout << "trans :" << bytes_transferred << endl;
-        cout << _buffer.data() << endl;
+        cout << data << endl;
         HandleRead();
     });
 }
