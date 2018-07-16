@@ -15,6 +15,7 @@ void NetServer::Start()
     mio.run();
 }
 
+//用于接受连接
 void NetServer::HandleAccept()
 {
     cout << "start listen!" << endl;
@@ -35,5 +36,20 @@ void NetServer::HandleAccept()
         conlist.push_back(handler);
         //启动下一个循环
         HandleAccept();
+    });
+}
+
+//用于处理读取事件
+void RWHandle::HandleRead()
+{
+    asio::async_read_until(sock, asio::buffer(m_buff), "\%\%\%", [this](const boost::system::error_code &ec) {
+        if (ec)
+        {
+            cout << ec.value() << " msg:" << ec.message() << endl;
+            //TODO 异常处理
+            return;
+        }
+        cout << m_buff.data() << endl;
+        HandleRead();
     });
 }

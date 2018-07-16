@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <boost/asio.hpp>
 #include <vector>
 
@@ -14,9 +15,12 @@ public:
   {
     return sock;
   }
+  void HandleRead();
 
 private:
+  const int buffer_len = 1024 * 1024 * 4;
   boost::asio::ip::tcp::socket sock;
+  std::array<char, buffer_len> m_buff;
 };
 
 class NetServer
