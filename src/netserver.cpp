@@ -35,6 +35,8 @@ void NetServer::HandleAccept()
         }
         //保存连接对象
         conlist.push_back(handler);
+        //fuck 忘记启动read了
+        handler->HandleRead();
         //启动下一个循环
         HandleAccept();
     });
@@ -43,7 +45,7 @@ void NetServer::HandleAccept()
 //用于处理读取事件
 void RWHandle::HandleRead()
 {
-    asio::async_read_until(sock, _buffer, "end", [this](const boost::system::error_code &ec, std::size_t bytes_transferred) {
+    asio::async_read_until(sock, _buffer, "\r\n", [this](const boost::system::error_code &ec, std::size_t bytes_transferred) {
         if (ec)
         {
             cout << ec.value() << " msg:" << ec.message() << endl;
