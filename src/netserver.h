@@ -18,7 +18,7 @@ public:
   void HandleRead();
 
 private:
-  const int buffer_len = 1024 * 1024 * 4;
+  static constexpr int buffer_len = 1024 * 1024 * 4;
   boost::asio::ip::tcp::socket sock;
   std::array<char, buffer_len> m_buff;
 };
