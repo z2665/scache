@@ -55,8 +55,8 @@ void RWHandle::HandleRead()
         std::string data(buffers_begin(_buffer.data()), buffers_begin(_buffer.data()) + _buffer.size());
         cout << "trans :" << bytes_transferred << endl;
         cout << data << endl;
-        _buffer.commit();
-        _buffer.consume();
+        _buffer.commit(bytes_transferred);
+        _buffer.consume(bytes_transferred);
         HandleRead();
     });
 }
