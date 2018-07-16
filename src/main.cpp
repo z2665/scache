@@ -42,6 +42,12 @@ int main(int argc, char const *argv[])
         cout << "\nrandom insert use time:" << (double)(finish - start) / CLOCKS_PER_SEC << endl;
     }
     // c.debugShow();
-    NetServer sv(12450);
+
+    else if (a == 2)
+    {
+        NetServer sv(12450);
+        sv.Start();
+    }
+
     return 0;
 }

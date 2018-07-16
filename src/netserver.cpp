@@ -12,6 +12,7 @@ NetServer::~NetServer()
 }
 void NetServer::Start()
 {
+    HandleAccept();
     mio.run();
 }
 
