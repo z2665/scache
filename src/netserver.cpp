@@ -49,7 +49,7 @@ void RWHandle::HandleRead()
         if (ec)
         {
             cout << ec.value() << " msg:" << ec.message() << endl;
-            //TODO 异常处理
+            //TODO 异常处理 连接断开会收到EOF
             return;
         }
         std::string data(buffers_begin(_buffer.data()), buffers_begin(_buffer.data()) + _buffer.size());
