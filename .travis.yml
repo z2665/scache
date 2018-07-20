@@ -26,5 +26,6 @@ install:
   - sudo ./b2 link=shared threading=multi variant=release
   - sudo ./b2 install 
 script:
+  - cd ..
   - cmake ./
   - make
