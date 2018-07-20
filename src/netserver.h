@@ -25,7 +25,6 @@ private:
 
 class NetServer
 {
-
 public:
   NetServer(int port, int maxcon = 20);
   void Start();
