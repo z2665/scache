@@ -67,7 +67,7 @@ void RWHandle::HandleRead()
 //用于处理接收到的客户端字符串
 void RWHandle::eventHandle(std::string_view data)
 {
-    static const char space = ' ';
+    static const std::string space = ' ';
     auto str_list = SplitString(data, space);
     for (auto &str : str_list)
     {
