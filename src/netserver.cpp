@@ -68,7 +68,10 @@ void RWHandle::HandleRead()
 void RWHandle::eventHandle(std::string_view data)
 {
     static const std::string space = " ";
-    auto str_list = SplitString(data, space);
+    static const std::string CRLF = "\r\n";
+    //TODO 这里需要做异常处理，外部输入可能会比较诡异
+    auto prestr_list = SplitString(data, CRLF);
+    auto str_list = SplitString(prestr_list[0], space);
     for (auto &str : str_list)
     {
         cout << "str:" << str << endl;
