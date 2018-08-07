@@ -1,6 +1,8 @@
 #include "netserver.h"
+#include "helper.h"
 #include <iostream>
 using namespace boost;
+using namespace Helper;
 using std::cout;
 using std::endl;
 //当context传入1的时候只使用单线程。asio会跳过所有的锁
@@ -57,6 +59,18 @@ void RWHandle::HandleRead()
         cout << data << endl;
         _buffer.commit(bytes_transferred);
         _buffer.consume(bytes_transferred);
+        eventHandle(data);
         HandleRead();
     });
+}
+
+//用于处理接收到的客户端字符串
+void RWHandle::eventHandle(std::string_view data)
+{
+    static const char space = ' ';
+    auto str_list = SplitString(data, space);
+    for (auto &str : str_list)
+    {
+        cout << "str:" << str << endl;
+    }
 }

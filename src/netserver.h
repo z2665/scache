@@ -18,6 +18,9 @@ public:
   void HandleRead();
 
 private:
+  void eventHandle(std::string_view data);
+
+private:
   // static constexpr int buffer_len = 1024 * 1024 * 4;
   boost::asio::ip::tcp::socket sock;
   boost::asio::streambuf _buffer;
