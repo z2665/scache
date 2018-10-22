@@ -1,16 +1,13 @@
 #include "netserver.h"
-#include <iostream>
 #include "helper.h"
+#include <iostream>
 using namespace boost;
 using namespace Helper;
 using std::cout;
 using std::endl;
 //当context传入1的时候只使用单线程。asio会跳过所有的锁
 NetServer::NetServer(int port, int maxcon)
-    : mio(1),
-      _port(port),
-      _maxcon(maxcon),
-      _nowcon(0),
+    : mio(1), _port(port), _maxcon(maxcon), _nowcon(0),
       acp(mio, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), _port)) {}
 NetServer::~NetServer() {}
 void NetServer::Start() {
@@ -93,6 +90,7 @@ void RWHandle::eventHandle(std::string_view data) {
         cout << "option is get" << endl;
     } else if (str_list[0] == SET) {
         cout << "option is set " << endl;
+        pcache->set(str_list[1], str_list[2]);
     } else {
         cout << "unknown" << endl;
     }

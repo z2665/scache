@@ -3,10 +3,11 @@
 #include <array>
 #include <boost/asio.hpp>
 #include <vector>
-
+#include "cache.h"
 class RWHandle {
    public:
-    RWHandle(boost::asio::io_context &ioc) : sock(ioc) {}
+    RWHandle(boost::asio::io_context &ioc)
+        : sock(ioc), pcache(std::make_shared<Scache::cache>()) {}
     ~RWHandle() {}
     boost::asio::ip::tcp::socket &GetSock() { return sock; }
     void HandleRead();
@@ -20,6 +21,7 @@ class RWHandle {
     boost::asio::streambuf _buffer;
     static constexpr std::string_view GET = "get";
     static constexpr std::string_view SET = "set";
+    std::shared_ptr<Scache::cache> pcache;
 };
 
 class NetServer {
