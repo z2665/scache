@@ -4,33 +4,37 @@
 namespace Scache {
 
 class item {
-   public:
+public:
     item(std::string key, std::string value)
-        : _key(std::move(key)), _value(std::move(value)), next(nullptr) {}
+        : _key(std::move(key)), _value(std::move(value)), next(nullptr)
+    {
+    }
     void SetNext(item *v) { next = v; }
     item *Next() { return next; }
     std::string Key() { return _key; }
     std::string Value() { return _value; }
     void SetValue(std::string value) { _value = std::move(value); }
 
-   private:
+private:
     std::string _key;
     std::string _value;
     item *next;
 };
 
 class cache {
-   private:
+private:
     // hash数组总容量
     long long cap;
     int depth;
     item **_hashmap;
 
-   public:
-    cache(int size = 200, int dep = 6) : cap(size), depth(dep) {
+public:
+    cache(int size = 200, int dep = 6) : cap(size), depth(dep)
+    {
         _hashmap = new item *[size]();
     };
-    ~cache() {
+    ~cache()
+    {
         //销毁存储的数据
         for (long long i = 0; i != cap; ++i) {
             item *oldone = _hashmap[i];
@@ -45,7 +49,8 @@ class cache {
         delete[] _hashmap;
     };
     // hash函数，后续更换为实现更优秀版本
-    long long hash(const std::string &key) const {
+    long long hash(const std::string &key) const
+    {
         long long tmp = 0;
         int count = 0;
         for (auto &ch : key) {
@@ -56,7 +61,8 @@ class cache {
         return tmp % cap;
     }
     //放大hashmap大小并重新hash
-    item **rehash() {
+    item **rehash()
+    {
         std::cout << "rehashing" << std::endl;
         long long oldcap = cap;
         cap *= 2;
@@ -77,11 +83,13 @@ class cache {
         _hashmap = newmap;
         return _hashmap;
     }
-    void set(std::string key, std::string value) {
+    void set(std::string key, std::string value)
+    {
         _set(_hashmap, std::move(key), std::move(value));
     }
     //用于set插入数据
-    void _set(item **hashmap, std::string key, std::string value) {
+    void _set(item **hashmap, std::string key, std::string value)
+    {
         int p = hash(key);
         //断开next链接的链表，因为已经重建规则
         item *tmp = new item(key, value);
@@ -118,7 +126,8 @@ class cache {
         }
     }
     //用于迁移老的item到新数组
-    void _set(item **hashmap, item *oldone) {
+    void _set(item **hashmap, item *oldone)
+    {
         int p = hash(oldone->Key());
         oldone->SetNext(nullptr);
         //如果这个位置没有被占用，则直接插入
@@ -144,7 +153,8 @@ class cache {
             next = next->Next();
         }
     }
-    void debugShow() const {
+    void debugShow() const
+    {
         for (long long i = 0; i != cap; ++i) {
             if (_hashmap[i] != nullptr) {
                 std::cout << "show key is :" << _hashmap[i]->Key()
@@ -154,4 +164,4 @@ class cache {
     }
 };
 
-}  // namespace Scache
+} // namespace Scache

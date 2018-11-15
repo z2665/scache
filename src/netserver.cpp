@@ -7,20 +7,28 @@ using std::cout;
 using std::endl;
 //当context传入1的时候只使用单线程。asio会跳过所有的锁
 NetServer::NetServer(int port, int maxcon)
-    : mio(1), _port(port), _maxcon(maxcon), _nowcon(0),
-      acp(mio, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), _port)) {}
+    : mio(1)
+    , _port(port)
+    , _maxcon(maxcon)
+    , _nowcon(0)
+    , acp(mio, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), _port))
+{
+}
 NetServer::~NetServer() {}
-void NetServer::Start() {
+void NetServer::Start()
+{
     HandleAccept();
     mio.run();
 }
 
 //用于接受连接
-void NetServer::HandleAccept() {
+void NetServer::HandleAccept()
+{
     cout << "start listen!" << endl;
     //确定当前连接数没有超过最大连接数
     if (_nowcon > _maxcon) {
         // TODO 错误处理
+        cout << "more connecting found" << endl;
         return;
     }
     //创建连接处理对象
@@ -41,7 +49,8 @@ void NetServer::HandleAccept() {
 }
 
 //用于处理读取事件
-void RWHandle::HandleRead() {
+void RWHandle::HandleRead()
+{
     asio::async_read_until(
         sock, _buffer, "\r\n",
         [this](const boost::system::error_code &ec,
@@ -65,7 +74,8 @@ void RWHandle::HandleRead() {
 }
 
 //用于处理接收到的客户端字符串
-void RWHandle::eventHandle(std::string_view data) {
+void RWHandle::eventHandle(std::string_view data)
+{
     static const std::string space = " ";
     static const std::string CRLF = "\r\n";
     // TODO 这里需要做异常处理，外部输入可能会比较诡异
@@ -75,7 +85,7 @@ void RWHandle::eventHandle(std::string_view data) {
         cout << "str:" << str << endl;
         for (auto &ch : str) {
             cout << ch << " ";
-            cout << (int)ch << " ";
+            cout << (int) ch << " ";
         }
         cout << "str lenth:" << str.size() << endl;
     }

@@ -1,21 +1,23 @@
 #pragma once
 
+#include "cache.h"
 #include <array>
 #include <boost/asio.hpp>
 #include <vector>
-#include "cache.h"
 class RWHandle {
-   public:
+public:
     RWHandle(boost::asio::io_context &ioc)
-        : sock(ioc), pcache(std::make_shared<Scache::cache>()) {}
+        : sock(ioc), pcache(std::make_shared<Scache::cache>())
+    {
+    }
     ~RWHandle() {}
     boost::asio::ip::tcp::socket &GetSock() { return sock; }
     void HandleRead();
 
-   private:
+private:
     void eventHandle(std::string_view data);
 
-   private:
+private:
     // static constexpr int buffer_len = 1024 * 1024 * 4;
     boost::asio::ip::tcp::socket sock;
     boost::asio::streambuf _buffer;
@@ -25,14 +27,14 @@ class RWHandle {
 };
 
 class NetServer {
-   public:
+public:
     NetServer(int port, int maxcon = 20);
     void Start();
     void HandleAccept();
     ~NetServer();
     std::vector<std::shared_ptr<RWHandle>> conlist;
 
-   private:
+private:
     boost::asio::io_context mio;
     int _port;
     int _maxcon;
